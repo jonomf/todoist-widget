@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Talks to api.todoist.com with your personal API token. No other permissions. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <queries>
+        <!-- Todoist itself: its icon in the widget, and opening tasks / quick add in it. -->
+        <package android:name="com.todoist" />
+        <!-- The Widget Updater, which checks for new builds and installs them. -->
+        <package android:name="com.jono.widgetupdater" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Makes the widget's long-press menu show a settings entry that opens this screen. -->
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!-- Expand panel: floats over the home screen when you tap a small widget's title. -->
+        <activity
+            android:name=".PanelActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:theme="@style/Panel" />
+
+        <!-- Invisible: handles taps on tasks (open in Todoist / complete) and then closes. -->
+        <activity
+            android:name=".TapActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- Background refresh every ~15 minutes, and shortly after you come back from Todoist. -->
+        <service
+            android:name=".SyncJob"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!-- Lets the Widget Updater find this app and tell it when a new build is out. -->
+        <receiver
+            android:name=".UpdateStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.jono.widgets.UPDATABLE" />
+            </intent-filter>
+            <meta-data android:name="com.jono.widgets.repo" android:value="jonomf/todoist-widget" />
+            <meta-data android:name="com.jono.widgets.asset" android:value="todoist-widget.apk" />
+        </receiver>
+
+        <receiver
+            android:name=".TaskWidget"
+            android:exported="false"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+    </application>
+</manifest>

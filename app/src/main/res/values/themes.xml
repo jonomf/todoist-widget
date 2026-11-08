@@ -1,0 +1,25 @@
+<resources>
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.DayNight" />
+
+    <!-- Expand panel: floats over the home screen; the widget's XL layout is drawn inside it. -->
+    <style name="Panel" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.45</item>
+    </style>
+
+    <!-- Update symbol: shown when the Widget Updater reports a newer build. Tap to update. -->
+    <style name="UpdateSymbol">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:background">@drawable/update_bg</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:src">@drawable/ic_update</item>
+        <item name="android:contentDescription">Update available</item>
+        <item name="android:visibility">gone</item>
+    </style>
+</resources>

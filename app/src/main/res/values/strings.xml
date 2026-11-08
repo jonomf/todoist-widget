@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Todoist Widget</string>
+    <string name="widget_name">Todoist tasks</string>
+    <string name="widget_desc">Tasks from one Todoist project or filter, most overdue first. Any size.</string>
+</resources>
