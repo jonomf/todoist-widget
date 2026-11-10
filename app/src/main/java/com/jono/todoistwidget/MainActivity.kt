@@ -361,6 +361,7 @@ class MainActivity : Activity() {
             text = "Get the latest build in the browser"
             setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(RELEASES_URL))) }
         })
+        ClaudeLink.addSection(this, col) { WidgetRenderer.renderAll(this) }
     }
 
     private fun pinWidget() {

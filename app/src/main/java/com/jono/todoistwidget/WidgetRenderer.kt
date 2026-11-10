@@ -184,6 +184,7 @@ object WidgetRenderer {
             rv.setViewVisibility(R.id.update, View.GONE)
         }
         rv.setTextViewText(R.id.title, m.title)
+        if (k.list) ClaudeLink.bind(ctx, rv, R.id.claude)  // not on the 1×1 tile
 
         if (!k.list) {
             // 1×1: one number. Overdue (red) if any, else the total.

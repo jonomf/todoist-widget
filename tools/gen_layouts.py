@@ -6,7 +6,7 @@ stays consistent. Edit here, then run:  python3 tools/gen_layouts.py
 View ids the renderer relies on:
   widget_tile:            root, count_big, title, update
   widget_list/_grid:      root, header, app_icon, title_area, title, overdue, count, status,
-                          update, refresh, add, list, empty
+                          claude, update, refresh, add, list, empty
   row_compact:            row, check, content, due
   row_detail:             row, check, content, due, meta
   row_more:               more
@@ -85,6 +85,10 @@ HEADER = '''
                 android:textSize="11sp"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/claude"
+            style="@style/ClaudeLink" />
 
         <ImageView
             android:id="@+id/update"

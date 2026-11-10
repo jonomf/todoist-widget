@@ -5,4 +5,5 @@
     <color name="accent_text">@android:color/system_accent1_200</color>
     <color name="btn_bg">@android:color/system_accent1_700</color>
     <color name="btn_text">@android:color/system_accent1_50</color>
+    <color name="claude_link">@android:color/system_accent1_200</color>
 </resources>

@@ -15,4 +15,5 @@
     <color name="p1_fill">#33E0453B</color>
     <color name="p2_fill">#33EB8909</color>
     <color name="p3_fill">#334A8AF0</color>
+    <color name="claude_link">@android:color/system_accent1_600</color>
 </resources>
