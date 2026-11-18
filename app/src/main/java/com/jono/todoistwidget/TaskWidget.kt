@@ -13,6 +13,7 @@ import android.os.Bundle
 class TaskWidget : AppWidgetProvider() {
 
     override fun onUpdate(ctx: Context, mgr: AppWidgetManager, ids: IntArray) {
+        ClaudeLink.syncShortcut(ctx)
         WidgetRenderer.render(ctx, ids)
         SyncJob.schedulePeriodic(ctx)
         val pending = goAsync()

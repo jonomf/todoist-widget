@@ -4,8 +4,12 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
 import android.graphics.Typeface
+import android.graphics.drawable.Icon
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -77,5 +81,53 @@ object ClaudeLink {
             text = "Open Claude session"
             setOnClickListener { a.startActivity(intent()) }
         })
+    }
+
+    /** Id of the "Claude session" entry in the app icon's long-press menu. */
+    private const val SHORTCUT = "claude_session"
+
+    /**
+     * Puts "Claude session" in the app icon's long-press menu. Launchers don't let apps add items to
+     * a widget's own long-press menu, so the widget side is the settings entry (see [addTopButton]).
+     * Cheap: does nothing once the shortcut exists, so it's safe to call on every widget update.
+     */
+    fun syncShortcut(ctx: Context) {
+        try {
+            val sm = ctx.getSystemService(ShortcutManager::class.java) ?: return
+            if (sm.dynamicShortcuts.any { it.id == SHORTCUT }) return
+            val info = ShortcutInfo.Builder(ctx, SHORTCUT)
+                .setShortLabel("Claude session")
+                .setLongLabel("Open Claude session")
+                .setIcon(Icon.createWithResource(ctx, R.drawable.ic_claude))
+                .setIntent(Intent(ctx, ClaudeLinkActivity::class.java).setAction(Intent.ACTION_VIEW))
+                .build()
+            sm.addDynamicShortcuts(listOf(info))
+        } catch (_: Exception) {
+        }
+    }
+
+    /**
+     * A button near the top of the setup screen. The widget's long-press menu has one entry apps can
+     * add (widget settings → this screen), so this keeps the session one tap from that menu.
+     */
+    fun addTopButton(a: Activity, col: LinearLayout, index: Int = 1) {
+        syncShortcut(a)
+        col.addView(Button(a).apply {
+            text = "✦  Open Claude session"
+            isAllCaps = false
+            setOnClickListener { a.startActivity(intent()) }
+        }, minOf(index, col.childCount))
+    }
+}
+
+/** Opened by the app-icon shortcut: opens the Claude session and closes straight away. */
+class ClaudeLinkActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        try {
+            startActivity(ClaudeLink.intent())
+        } catch (_: Exception) {
+        }
+        finish()
     }
 }
